@@ -1,4 +1,4 @@
-package com.QALearn.setup.UI_Automation;
+package resources;
 
 /**
  * Hello world!

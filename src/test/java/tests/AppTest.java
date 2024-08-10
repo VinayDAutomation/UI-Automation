@@ -1,4 +1,4 @@
-package com.QALearn.setup.UI_Automation;
+package tests;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
