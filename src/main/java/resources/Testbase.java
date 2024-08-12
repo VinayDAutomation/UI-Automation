@@ -14,11 +14,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Testbase {
 	
-//this class contains webDriver initialization, browser preconditions like maximize window, delete cookies & wait objects
+// this class contains webDriver initialization, browser preconditions like maximize window, delete cookies & wait objects
 	
-//  public is access modifier & static is used as the given method or variable is going to remain same for any instance of this class,
-//	we are not going to have variable or method with same name, so to save memory which will be used for creating object of this class
-//	and calling specific method or variable, we declared it as static. when static it becomes a part of the class, can be called without object.
+// public is access modifier & static is used as the given method or variable is going to remain same for any instance of this class,
+// we are not going to have variable or method with same name, so to save memory which will be used for creating object of this class
+// and calling specific method or variable, we declared it as static. when static it becomes a part of the class, can be called without object.
 
 	public static WebDriver driver;
 	public static WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofMillis(10000));
