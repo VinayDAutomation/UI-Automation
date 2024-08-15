@@ -3,12 +3,14 @@ package pageObjects;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import resources.TestUtilities;
 import resources.Testbase;
 
 public class XyzBankPage extends Testbase {
 	
-	@FindBy(xpath = "strong.mainHeading")
+	@FindBy(xpath = "//strong[@class = 'mainHeading']")
 	WebElement header;
 	@FindBy(xpath = "//button[contains(.,'Home')]")
 	WebElement homeBtn;
@@ -26,25 +28,25 @@ public class XyzBankPage extends Testbase {
 	WebElement addCustomerBtn;
 	@FindBy(xpath = "//button[contains(text(),'Open Account')]")
 	WebElement openAccountBtn;
-	@FindBy(xpath = "#userSelect")
+	@FindBy(xpath = "//select[@id= 'userSelect']")
 	WebElement userDrp; //user name to be selected from dropdown
-	@FindBy(xpath = "#currency")
+	@FindBy(xpath = "//select[@id= 'currency']")
 	WebElement currencyDrp; //Dollar Pound Rupee
 	@FindBy(xpath = "//button[contains(text(),'Process')]")
 	WebElement processBtn;
 	@FindBy(xpath = "//button[contains(text(),'Customers')]")
 	WebElement customerTab;
-	@FindBy(xpath = "//td[contains(.,'%s')]//following::td[position()=4]")  
+	@FindBy(xpath = "//td[contains(.,'Vinay')]//following::td[position()=4]")  
 	WebElement customerDelBtn; //customer name to be parameterized
 	@FindBy(xpath = "//button[contains(text(),'Customer Login')]")
 	WebElement customerLoginBtn;
-	@FindBy(xpath = "#userSelect")
+	@FindBy(xpath = "//select[@id= 'userSelect']")
 	WebElement customerDrp; //customer name to be selected from dropdown
 	@FindBy(xpath = "//button[contains(text(),'Login')]")
 	WebElement loginBtn;
 	@FindBy(xpath = "//button[@class='btn logout']")
 	WebElement logoutBtn;
-	@FindBy(xpath = "#accountSelect")
+	@FindBy(xpath = "//select[@id= 'accountSelect']")
 	WebElement accountDrp;
 	@FindBy(xpath = "//button[contains(text(),'Deposit') and @ng-class='btnClass2']")
 	WebElement depositTab;
@@ -71,14 +73,54 @@ public class XyzBankPage extends Testbase {
 		
 	public XyzBankPage() {
 		PageFactory.initElements(driver, this);
+		
 	}
 	
 	// url https://www.globalsqa.com/angularJs-protractor/BankingProject/#/login
 	
-	
+	TestUtilities utils = new TestUtilities();
 	// add customer, open account, verify customer is present
 	public void openAccountWithBankerLogin() {
 		
+		explicitWait.until(ExpectedConditions.visibilityOf(header));
+		bankerLoginBtn.click();
+		
+		//customer registration
+		customertab.click();
+		firstName.sendKeys("Vinay");
+		lastName.sendKeys("Dev");
+		postcode.sendKeys("560102");
+		addCustomerBtn.click();
+		String customerStatus = driver.switchTo().alert().getText();
+		if(customerStatus.contains("Customer added successfully")) {
+			System.out.println("Customer added successfully!");
+			
+		}
+		else {
+			System.out.println("customer regristration failed!");
+		}
+		driver.switchTo().alert().accept();
+		
+		//account creation
+		openAccountBtn.click();
+		utils.selectDropdownValueBy(userDrp, "visibletext", "Vinay Dev", 0);
+		utils.selectDropdownValueBy(currencyDrp, "value", "Rupee", 0);
+		processBtn.click();
+		String accountStatus = driver.switchTo().alert().getText();
+		if(accountStatus.contains("Account created successfully")) {
+			System.out.println("Account created successfully!");
+			
+		}
+		else {
+			System.out.println("Account creation failed!");
+		}
+		driver.switchTo().alert().accept();
+		
+		//Verify account is present in the list
+		customerTab.click();
+		if(customerDelBtn.isDisplayed()) {
+			System.out.println("Account is present in the list!");
+		}
 	}
 	
 

@@ -21,11 +21,10 @@ public class Testbase {
 // and calling specific method or variable, we declared it as static. when static it becomes a part of the class, can be called without object.
 
 	public static WebDriver driver;
-	public static WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofMillis(10000));
-	public static Wait<WebDriver> fluentWait = new FluentWait<WebDriver>(driver).withTimeout(Duration.ofMillis(10000)).pollingEvery(Duration.ofMillis(500));			
-	
+	public static WebDriverWait explicitWait = null;
+	public static Wait<WebDriver> fluentWait = null;
 
-	public static void hitUrlInSelectedBrowser(String browser, String url) {
+	public static void browserInitialization(String browser, String url) throws InterruptedException {
 		
 		if(browser.equalsIgnoreCase("chrome")) {
 			driver = new ChromeDriver();
@@ -45,7 +44,8 @@ public class Testbase {
 		
 		//set the implicit wait right after initializing the WebDriver instance
 		driver.manage().timeouts().implicitlyWait(Duration.ofMillis(30000));
-		
+		explicitWait = new WebDriverWait(driver, Duration.ofMillis(10000));
+		fluentWait = new FluentWait<WebDriver>(driver).withTimeout(Duration.ofMillis(10000)).pollingEvery(Duration.ofMillis(500));
 		//navigate can help if we want to move through pages later in test case
 		driver.manage().window().maximize();
 		driver.manage().deleteAllCookies();
